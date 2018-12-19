@@ -11,16 +11,17 @@
 
 //consts
 const unsigned int MIN_NUM_FEATURES = 300; //minimum number of point fetaures
-
+int nfeatures=500; float scaleFactor=1.2f; int nlevels=8; int edgeThreshold=1; int firstLevel=0; int WTA_K=2; int patchSize=1;
 int main(int argc, char *argv[])
 {
     cv::VideoCapture camera; //OpenCV video capture object
     cv::Mat image; //OpenCV image object
 	int cam_id; //camera id . Associated to device number in /dev/videoX
-    cv::Ptr<cv::ORB> orb_detector = cv::ORB::create(); //ORB point feature detector
+    cv::Ptr<cv::ORB> orb_detector = cv::ORB::create(nfeatures, scaleFactor, nlevels, edgeThreshold, firstLevel, WTA_K, patchSize); //ORB point feature detector
     orb_detector->setMaxFeatures(MIN_NUM_FEATURES);
     std::vector<cv::KeyPoint> point_set; //set of point features
-    cv::Mat descriptor_set; //set of descriptors, for each feature there is an associated descriptor
+    cv::Mat descriptor_set; //set of descriptors, for each feature there is an associated descriptor	
+
 
 	//check user args
 	switch(argc)
@@ -68,7 +69,12 @@ int main(int argc, char *argv[])
         //draw points on the image
         cv::drawKeypoints( image, point_set, image, 255, cv::DrawMatchesFlags::DEFAULT );
 
+
     //********************************************************************
+
+
+
+
 
         //show image
         cv::imshow("Output Window", image);
